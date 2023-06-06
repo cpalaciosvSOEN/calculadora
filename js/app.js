@@ -1,144 +1,162 @@
-let view = function (){
-    this.Core = {
-        // #region init
-        init: function(){
-            this.rootElement = $('#root');
-            this.getInit()
-        },
-        getInit: async function(data){
-            this.rootElement.append(
-                this.templateView()
-            )
-        },
-        // #endregion
-        // #region handlers
-        handleShowCharacters: async function(){
-            let requestCharacters = await this.getCharacters()
-            console.log(requestCharacters)
-            this.renderArea.empty()
-            this.renderArea.append(
-                $('<div>').attr({ class: 'c-cards'}).append(
-                    requestCharacters.results.map(card => {
-                        return this.templateCardCharacter(card)
-                    })
-                )
-            )
-        },
+class ViewCalculator {
 
-        handleShowEpisodes: async function(){
-            let requestEpisodes = await this.getEpisodes()
-            console.log(requestEpisodes)
-            this.renderArea.empty()
-            this.renderArea.append(
-                $('<div>').attr({ class: 'c-cards'}).append(
-                    requestEpisodes.results.map(card => {
-                        return this.templateCardEpisode(card)
-                    })
-                )
-            )
-        },
+    btnNumber0 = ''
+    btnNumber1 = ''
+    btnNumber2 = ''
+    btnNumber3 = ''
+    btnNumber4 = ''
+    btnNumber5 = ''
+    btnNumber6 = ''
+    btnNumber7 = ''
+    btnNumber8 = ''
+    btnNumber9 = ''
+    btnSumar = ''
+    btnRestar = ''
+    btnMultiplicar = ''
+    btnDividir = ''
+    btnCalcular = ''
+    numbers = []
+    calc = 0
+    isNew = true
 
-        handleShowLocations: async function(){
-            let requestLocations = await this.getLocations()
-            console.log(requestLocations)
-            this.renderArea.empty()
-            this.renderArea.append(
-                $('<div>').attr({ class: 'c-cards'}).append(
-                    requestLocations.results.map(card => {
-                        return this.templateCardLocation(card)
-                    })
-                )
-            )
-        },
+    constructor() {
+        this.canvas = $('.container')
+    }
 
-        // #region templates
-        templateView: function(context = this){
-            context.btnCharacters = $('<button>').text('Characters').on('click', async () => {
-                await this.handleShowCharacters()
+    init() {
+        this.canvas.append(this.templateViewCalculator());
+    }
+
+    addNumber(number) {
+        if (!this.isNew) this.textDisplay.text('')
+
+        this.textDisplay.text(this.textDisplay.text() + number)
+        this.calc = parseInt(this.textDisplay.text())
+    }
+
+    addOperation(operation) {
+        this.operation = operation
+        this.numbers.push(this.calc)
+        this.textDisplay.text('')
+
+        switch (this.operation) {
+            case 'suma':
+                this.textDisplayOld.text(this.calc + ' + ')
+                break;
+            case 'resta':
+                this.textDisplayOld.text(this.calc + ' - ')
+                break;
+            case 'multiplicacion':
+                this.textDisplayOld.text(this.calc + ' * ')
+                break;
+            case 'division':
+                this.textDisplayOld.text(this.calc + ' / ')
+                break;
+        }
+
+        if (this.numbers.length > 1) {
+            this.calcular()
+        }
+    }
+
+    calcular() {
+        switch (this.operation) {
+            case 'suma':
+                this.calc = this.numbers[0] + this.numbers[1]
+                this.textDisplay.text(this.calc)
+                break;
+            case 'resta':
+                this.calc = this.numbers[0] - this.numbers[1]
+                this.textDisplay.text(this.calc)
+                break;
+            case 'multiplicacion':
+                this.calc = this.numbers[0] * this.numbers[1]
+                this.textDisplay.text(this.calc)
+                break;
+            case 'division':
+                this.calc = this.numbers[0] / this.numbers[1]
+                this.textDisplay.text(this.calc)
+                break;
+        }
+        this.numbers = []
+        this.isNew = false
+    }
+
+    reset() {
+        this.numbers = []
+        this.calc = 0
+        this.textDisplay.text('')
+        this.textDisplayOld.text('')
+    }
+
+    templateViewCalculator() {
+
+        this.btnReset = $('<div>').addClass('btn-operator calcular').text('C').on('click', () => {
+            this.reset()
+        })
+
+        this.btnSumar = $('<div>').addClass('btn-operator').text('+').on('click', () => {
+            this.addOperation('suma')
+        })
+
+        this.btnRestar = $('<div>').addClass('btn-operator').text('-').on('click', () => {
+            this.addOperation('resta')
+        })
+
+        this.btnMultiplicar = $('<div>').addClass('btn-operator').text('*').on('click', () => {
+            this.addOperation('multiplicacion')
+        })
+
+        this.btnDividir = $('<div>').addClass('btn-operator').text('/').on('click', () => {
+            this.addOperation('division')
+        })
+
+        for (let i = 0; i < 10; i++) {
+            this['btnNumber' + i] = $('<div>').addClass('btn-number').text(i).on('click', () => {
+                this.addNumber(i)
             })
-            context.btnEpisodes = $('<button>').text('Episodes').on('click', () => {
-                this.handleShowEpisodes()
-            })
-            context.btnLocations = $('<button>').text('Locations').on('click', () => {
-                this.handleShowLocations()
-            })
+        }
 
-            context.renderArea = $('<div>').attr({ id: 'js-view-render' })
-            
-            return $('<div>').append(
-                $('<h1>').text('Rick and Morty API'),
-                $('<div>').append(
-                    context.btnCharacters,
-                    context.btnEpisodes,
-                    context.btnLocations
+        this.btnCalcular = $('<div>').addClass('btn-operator calcular').text('Calcular')
+
+        this.textDisplay = $('<span>').attr('class', 'display-text-current')
+        this.textDisplayOld = $('<span>').attr('class', 'display-text-old')
+
+        return $('<div>').addClass('calculadora').append(
+            $('<span>').addClass('marca').text('CASIO'),
+            $('<div>').addClass('display').append(
+                this.textDisplayOld,
+                this.textDisplay
+            ),
+            $('<div>').addClass('buttons').append(
+                $('<div>').addClass('operators').append(
+                    this.btnReset,
+                    this.btnSumar,
+                    this.btnRestar,
+                    this.btnMultiplicar,
+                    this.btnDividir
                 ),
-                context.renderArea,
-            )
-        },
-        templateMenu: function(context = this){
-        },
-        templateRender: function(context = this){
-        },
-        templateCards: function(context = this){
-        },
-        templateCardCharacter: function(data){
-            return $('<div>').attr({ class: 'c-card'}).append(
-                $('<div>').attr({ class: 'c-card__header'}).append(
-                    $('<h2>').text(data.name)
+                $('<div>').addClass('numbers').append(
+                    this.btnNumber1,
+                    this.btnNumber2,
+                    this.btnNumber3,
+                    this.btnNumber4,
+                    this.btnNumber5,
+                    this.btnNumber6,
+                    this.btnNumber7,
+                    this.btnNumber8,
+                    this.btnNumber9,
+                    this.btnNumber0,
                 ),
-                $('<div>').attr({ class: 'c-card__body'}).append(
-                    $('<img>').attr({ src: data.image })
-                ),
-                $('<div>').attr({ class: 'c-card__footer'}).append(
-                    $('<button>').text('Show More')
+                $('<div>').addClass('operators').append(
+                    this.btnCalcular
                 )
             )
-        },
-        templateCardEpisode: function(data){
-            return $('<div>').attr({ class: 'c-card'}).append(
-                $('<div>').attr({ class: 'c-card__header'}).append(
-                    $('<h2>').text(`${data.name} - ${data.episode}`)
-                ),
-                $('<div>').attr({ class: 'c-card__body'}).append(
-                    $('<img>').attr({ src: data.image })
-                ),
-                $('<div>').attr({ class: 'c-card__footer'}).append(
-                    $('<button>').text('Show More')
-                )
-            )
-        },
-        templateCardLocation: function(data){
-            return $('<div>').attr({ class: 'c-card'}).append(
-                $('<div>').attr({ class: 'c-card__header'}).append(
-                    $('<h2>').text(data.name)
-                ),
-                $('<div>').attr({ class: 'c-card__body'}).append(
-                    $('<img>').attr({ src: data.image })
-                ),
-                $('<div>').attr({ class: 'c-card__footer'}).append(
-                    $('<button>').text('Show More')
-                )
-            )
-        },
-        // #endregion
-        // #region API's requests 
-        getCharacters: async function(params = {}){
-            let request = await axios.get('https://rickandmortyapi.com/api/character', params)
-            return request.data;
-        },
-        getEpisodes: async function(params = {}){
-            let request = await axios.get('https://rickandmortyapi.com/api/episode', params)
-            return request.data;
-        },
-        getLocations: async function(params = {}){
-            let request = await axios.get('https://rickandmortyapi.com/api/location', params)
-            return request.data;
-        },
-        // #endregion
+        )
     }
 }
 
-$(function (){
-    let oView = new view();
-    oView.Core.init();
+$(function () {
+    let viewCalculator = new ViewCalculator();
+    viewCalculator.init();
 })

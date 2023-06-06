@@ -1,4 +1,230 @@
-*{
-    margin: 0px;
-    padding: 0px;
+* {
+  margin: 0px;
+  padding: 0px;
+}
+/* 
+.container {
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+}
+
+.seccion-bienvenida {
+  min-width: 500px;
+  max-width: 200px;
+  height: 50vh;
+  border: 1px solid red;
+  position: fixed;
+  bottom: 0;
+}
+
+.seccion-bienvenida .imagen {
+  width: 100px;
+  height: 100px;
+  background-color: blue;
+  position: absolute;
+}
+
+.seccion-bienvenida .card {
+  height: 100%;
+  padding-top: 20px;
+  margin-top: 30px;
+  background-color: black;
+  color: white;
+}
+
+.pollo {
+  position: relative;
+}
+
+.cabeza {
+  width: 200px;
+  height: 200px;
+  background-color: #ffca3a;
+  border-radius: 100%;
+  position: absolute;
+  z-index: 10;
+  top: 0;
+  left: 60px;
+}
+.cresta {
+  width: 40px;
+  height: 40px;
+  background-color: red;
+  border-radius: 100%;
+  margin: 0 auto;
+}
+
+.ojo {
+  width: 80px;
+  height: 80px;
+  background-color: white;
+  position: absolute;
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 5;
+}
+
+.ojo .pupila {
+  width: 40px;
+  height: 40px;
+  background-color: black;
+  border-radius: 100%;
+}
+
+.ojo.izquierdo {
+  right: 10px;
+}
+
+.ojo.derecho {
+  left: 10px;
+}
+
+.cuerpo {
+  width: 300px;
+  height: 400px;
+  background-color: #ffbb00;
+  border-radius: 100%;
+  position: absolute;
+  z-index: 5;
+  top: 140px;
+} */
+
+.container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgb(0, 193, 140);
+  background: linear-gradient(
+    25deg,
+    rgba(0, 193, 140, 1) 0%,
+    rgba(0, 212, 255, 1) 100%
+  );
+}
+
+.calculadora {
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  max-width: 250px;
+  width: 100%;
+  padding: 15px;
+  border: 2px solid #30323d;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+}
+.marca {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-weight: bold;
+  font-size: 0.9rem;
+  color: #1a1c2c;
+  margin-bottom: 5px;
+  padding: 5px 10px;
+  border: 1px solid #abadc0;
+  border-radius: 3px;
+  width: fit-content;
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.display {
+  background-color: #eeeeee;
+  height: 100px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  border: 1px solid #abadc0;
+  position: relative;
+}
+
+.display-text-current {
+  display: block;
+  font-size: 2.4rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #1a1c2c;
+  padding: 0 10px;
+}
+
+.display-text-old {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #1a1c2c;
+  padding: 0 10px;
+  position: absolute;
+  font-size: 1.5rem;
+  top: 10px;
+}
+
+.numbers {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.btn-number:last-child {
+  grid-column: span 3;
+}
+
+.btn-number,
+.btn-operator {
+  border: 1px solid #abadc0;
+  padding: 10px;
+  border-radius: 10px;
+  color: #1a1c2c;
+  font-size: 1.2rem;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease-in-out;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.btn-operator {
+  font-size: 1rem;
+  width: 100%;
+}
+
+.btn-number:hover,
+.btn-operator:hover {
+  cursor: pointer;
+  background-color: #e6e6e6;
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.2);
+}
+
+.btn-number:active,
+.btn-operator:active {
+  background-color: #d9d9d9;
+}
+
+.operators {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  /* flex-direction: column; */
+  gap: 10px;
+}
+
+.calcular {
+  background-color: #ff2121;
+  color: #fff;
+}
+.calcular:hover {
+  background-color: #e60000;
+}
+
+.calcular:active {
+  background-color: #cc0000;
 }
