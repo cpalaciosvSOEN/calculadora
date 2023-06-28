@@ -123,7 +123,7 @@ class ViewCalculator {
         this.textDisplayOld = $('<span>').attr('class', 'display-text-old')
 
         return $('<div>').addClass('calculadora').append(
-            $('<span>').addClass('marca').text('CASIO'),
+            $('<span>').addClass('marca').text('JESENIA'),
             $('<div>').addClass('display').append(
                 this.textDisplayOld,
                 this.textDisplay
